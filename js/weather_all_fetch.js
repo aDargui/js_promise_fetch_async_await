@@ -39,61 +39,9 @@ function handleClick(e){
         .then(()=>{promises = []})
 }
 
-function makeRequest(city){
-    return new Promise((resolve, reject) => {
-        let xhr;
-        xhr = new XMLHttpRequest();
-        xhr.open('GET', buildUrl(city));
-        xhr.onreadystatechange = () =>{
-            //console.log(xhr.readyState)
-            if(xhr.readyState == 4){
-                //console.log(xhr.status)
-                if(xhr.status == 200){
-                    //success
-                    console.log(xhr.responseText)
-                    let response = JSON.parse(xhr.responseText)
-                    //console.log(response);
-                    // createSuccessHtml(response)
-                    resolve(response )
-                }else{
-                    //failure
-                    //console.log(xhr.responseText)
-                    let response = JSON.parse(xhr.responseText)
-                    //console.log(response.message);
-                    //createErrorHtml(response);
-                    reject(response )
-                }
 
-            }
-            
-        };
-        xhr.send();
 
-    });
-}
 
-/*
-function handleResponse(){
-    console.log(xhr.readyState)
-    if(xhr.readyState == 4){
-        console.log(xhr.status)
-        if(xhr.status == 200){
-            //success
-            console.log(xhr.responseText)
-            let response = JSON.parse(xhr.responseText)
-            console.log(response);
-            createSuccessHtml(response)
-        }else{
-            //failure
-            console.log(xhr.responseText)
-            let response = JSON.parse(xhr.responseText)
-            console.log(response.message);
-            createErrorHtml(response);
-        }
-
-    }
-}
-*/
 
 function createSuccessHtml(data, index){
     let weather =data.weather[0]
