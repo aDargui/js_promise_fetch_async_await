@@ -22,6 +22,7 @@ function handleClick(e){
         //avec methode catch pour les erreurs
         .then(data => createSuccessHtml(data))
         .catch(error => createErrorHtml(error))
+        .finally(()=>restForm())
 
 }
 
@@ -110,6 +111,10 @@ let updateUI = html => {
     //remplace with htmlString
     console.log(response)
     response.insertAdjacentHTML('beforeend', html);
+    
+};
+
+function restForm(){
     //reset form
     cityField.disabled = false;
     btn.disabled = false;
