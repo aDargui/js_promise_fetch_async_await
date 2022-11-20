@@ -6,7 +6,7 @@ let response = document.getElementById('response');
 
 let baseUrl = "https://api.openweathermap.org/data/2.5/weather";
 let key = '0397fd0aa39e47fef4da89c2169584ec';
-let xhr;
+
 
 //Event listeners
 console.log(btn)
@@ -17,10 +17,19 @@ function handleClick(e){
     cityField.disabled = true;
     btn.disabled = true;
     updateUI(`<img src="images/spinner.gif" alt="spinner" id="spinner"`);
-    xhr = new XMLHttpRequest();
-    xhr.open('GET', buildUrl(city));
-    xhr.onreadystatechange = handleResponse;
-    xhr.send();
+    console.log(makeRequest(city));
+    
+}
+
+function makeRequest(city){
+    return new Promise((resolve, reject) => {
+        let xhr;
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', buildUrl(city));
+        xhr.onreadystatechange = handleResponse;
+        xhr.send();
+
+    });
 }
 
 function handleResponse(){
@@ -66,7 +75,7 @@ function createErrorHtml(data){
 }
 
 //Utilities
-let buildUrl = city => `${baseUrl}?units=metric&lang=fr&q=${key}`;
+let buildUrl = city => `${baseUrl}?units=metric&lang=fr&q=${city}&APPID=${key}`;
 let updateUI = html => {
     //empty response conatiner
     response.innerHTML = '';
