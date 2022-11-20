@@ -29,11 +29,31 @@ function handleResponse(){
         console.log(xhr.status)
         if(xhr.status == 200){
             //success
+            console.log(xhr.responseText)
+            let response = JSON.parse(xhr.responseText)
+            console.log(response);
+            createSuccessHtml(response)
         }else{
             //failure
+            console.log(xhr.responseText)
+            let response = JSON.parse(xhr.responseText)
+            console.log(response.message);
         }
 
     }
+}
+
+function createSuccessHtml(data){
+    let weather =data.weather[0]
+    let html = `
+        <h1>Le temps à ${data.name}<h1>
+        <p class="weatherMain">
+            <img src="http://openweathermap.org/img/${weather.icon}.png" alt="${weather.description}"/><span>${weather.description}</span>
+        </p>
+        <p>Température : ${data.main.temp.toFixed(1)} °C </p>
+        
+        `
+    updateUI(html);
 }
 
 //Utilities
