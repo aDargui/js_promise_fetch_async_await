@@ -38,6 +38,7 @@ function handleResponse(){
             console.log(xhr.responseText)
             let response = JSON.parse(xhr.responseText)
             console.log(response.message);
+            createErrorHtml(response);
         }
 
     }
@@ -56,6 +57,14 @@ function createSuccessHtml(data){
     updateUI(html);
 }
 
+function createErrorHtml(data){
+    let html = `
+        <h1>Une erreur c'est produite ! </h1>
+        <p>${data.message}</p>
+    `;
+    updateUI(html);
+}
+
 //Utilities
 let buildUrl = city => `${baseUrl}?units=metric&lang=fr&q=${key}`;
 let updateUI = html => {
@@ -63,7 +72,7 @@ let updateUI = html => {
     response.innerHTML = '';
     //remplace with htmlString
     console.log(response)
-    //response.insertAdjacentElement('beforeend', html);
+    response.insertAdjacentHTML('beforeend', html);
     //reset form
     cityField.disabled = false;
     btn.disabled = false;
