@@ -25,6 +25,15 @@ function handleClick(e){
 
 function handleResponse(){
     console.log(xhr.readyState)
+    if(xhr.readyState == 4){
+        console.log(xhr.status)
+        if(xhr.status == 200){
+            //success
+        }else{
+            //failure
+        }
+
+    }
 }
 
 //Utilities
