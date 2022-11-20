@@ -18,10 +18,11 @@ function handleClick(e){
     updateUI(`<img src="images/spinner.gif" alt="spinner" id="spinner"`);
     console.log(makeRequest(city));
     makeRequest(city)
-        .then(response => JSON.parse(response))
+        //.then(data => createSuccessHtml(data), error => createErrorHtml(error))
+        //avec methode catch pour les erreurs
         .then(data => createSuccessHtml(data))
-    
-    
+        .catch(error => createErrorHtml(error))
+
 }
 
 function makeRequest(city){
@@ -30,23 +31,23 @@ function makeRequest(city){
         xhr = new XMLHttpRequest();
         xhr.open('GET', buildUrl(city));
         xhr.onreadystatechange = () =>{
-            console.log(xhr.readyState)
+            //console.log(xhr.readyState)
             if(xhr.readyState == 4){
-                console.log(xhr.status)
+                //console.log(xhr.status)
                 if(xhr.status == 200){
                     //success
                     console.log(xhr.responseText)
                     let response = JSON.parse(xhr.responseText)
-                    console.log(response);
+                    //console.log(response);
                     // createSuccessHtml(response)
-                    resolve(xhr.responseText)
+                    resolve(response )
                 }else{
                     //failure
-                    console.log(xhr.responseText)
+                    //console.log(xhr.responseText)
                     let response = JSON.parse(xhr.responseText)
-                    console.log(response.message);
+                    //console.log(response.message);
                     //createErrorHtml(response);
-                    reject(xhr.responseText)
+                    reject(response )
                 }
 
             }
