@@ -26,11 +26,15 @@ function handleClick(e){
             .finally(()=> restCityField(cityField))
     });
     //console.log(promises);
+    /*
     Promise.all(promises)
         .then(()=> {btn.disabled = false})
         .then(()=>{promises = []})
+    */
 
-
+    Promise.allSettled(promises)
+        .then(()=> {btn.disabled = false})
+        .then(()=>{promises = []})
 }
 
 function makeRequest(city){
