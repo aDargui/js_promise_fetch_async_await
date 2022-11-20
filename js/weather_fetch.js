@@ -18,13 +18,20 @@ function handleClick(e){
     updateUI(`<img src="images/spinner.gif" alt="spinner" id="spinner"`);
 
     //fetch remplace makeRequest(city)
-    let req = fetch(buildUrl(city))
+    let req = fetch(buildUrl(city));
         //.then(data => createSuccessHtml(data), error => createErrorHtml(error))
         //avec methode catch pour les erreurs
-    req.then(response => response.json())
+        req.then(response => {
+            if(response.ok){
+                return response.json()
+            }else{
+                //console.log(response.json())
+                return response.json().then(obj => {throw obj})
+            }
+        })
         .then(data => createSuccessHtml(data))
         .catch(error => createErrorHtml(error))
-        .finally(()=>restForm())
+        .finally(()=>restForm());
     console.log(req)
 
 }
@@ -112,7 +119,7 @@ let updateUI = html => {
     //empty response conatiner
     response.innerHTML = '';
     //remplace with htmlString
-    console.log(response)
+    //console.log(response)
     response.insertAdjacentHTML('beforeend', html);
     
 };
