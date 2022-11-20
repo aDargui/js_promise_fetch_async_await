@@ -16,12 +16,24 @@ async function handleClick(e){
     cityField.disabled = true;
     btn.disabled = true;
     updateUI(`<img src="images/spinner.gif" alt="spinner" id="spinner"`);
-
-    let response = await fetch(buildUrl(city));
-    let data = await response.json();
-    await createSuccessHtml(data);
-    await restForm();
-
+    try{
+        let response = await fetch(buildUrl(city));
+        let data = await handleErrors(response);
+        await createSuccessHtml(data);
+        await restForm();
+    } catch(error){
+        createErrorHtml(error);
+    } finally{
+        restForm();
+    }
+}
+async function handleErrors(response){
+    if(response.ok){
+        return response.json()
+    }else{
+        let error = await response.json();
+        throw error;
+    }
 }
 
 function createSuccessHtml(data){
