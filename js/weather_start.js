@@ -9,7 +9,6 @@ let key = '0397fd0aa39e47fef4da89c2169584ec';
 
 
 //Event listeners
-console.log(btn)
 btn.addEventListener('click',handleClick,false);
 
 function handleClick(e){
@@ -18,6 +17,10 @@ function handleClick(e){
     btn.disabled = true;
     updateUI(`<img src="images/spinner.gif" alt="spinner" id="spinner"`);
     console.log(makeRequest(city));
+    makeRequest(city)
+        .then(response => JSON.parse(response))
+        .then(data => createSuccessHtml(data))
+    
     
 }
 
@@ -26,12 +29,35 @@ function makeRequest(city){
         let xhr;
         xhr = new XMLHttpRequest();
         xhr.open('GET', buildUrl(city));
-        xhr.onreadystatechange = handleResponse;
+        xhr.onreadystatechange = () =>{
+            console.log(xhr.readyState)
+            if(xhr.readyState == 4){
+                console.log(xhr.status)
+                if(xhr.status == 200){
+                    //success
+                    console.log(xhr.responseText)
+                    let response = JSON.parse(xhr.responseText)
+                    console.log(response);
+                    // createSuccessHtml(response)
+                    resolve(xhr.responseText)
+                }else{
+                    //failure
+                    console.log(xhr.responseText)
+                    let response = JSON.parse(xhr.responseText)
+                    console.log(response.message);
+                    //createErrorHtml(response);
+                    reject(xhr.responseText)
+                }
+
+            }
+            
+        };
         xhr.send();
 
     });
 }
 
+/*
 function handleResponse(){
     console.log(xhr.readyState)
     if(xhr.readyState == 4){
@@ -52,6 +78,7 @@ function handleResponse(){
 
     }
 }
+*/
 
 function createSuccessHtml(data){
     let weather =data.weather[0]
